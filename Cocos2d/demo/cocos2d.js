@@ -44,6 +44,7 @@
             'src/planeLayer.js',
             'src/enemyLayer.js',
             'src/bulletLayer.js',
+            'src/controlLayer.js',
             'src/utilFuncs.js',
             'src/myApp.js'
         ]

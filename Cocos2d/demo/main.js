@@ -65,8 +65,8 @@ var cocos2dApp = cc.Application.extend({
 //            }
 //        }
 
-        resDirOrders.push("ui");
-        cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
+//        resDirOrders.push("ui");
+//        cc.FileUtils.getInstance().setSearchResolutionsOrder(resDirOrders);
 
         director.setContentScaleFactor(resourceSize.width / designSize.width);
         cc.EGLView.getInstance().setDesignResolutionSize(designSize.width, designSize.height, cc.RESOLUTION_POLICY.SHOW_ALL);
