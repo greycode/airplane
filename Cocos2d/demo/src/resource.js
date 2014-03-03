@@ -1,10 +1,12 @@
-var s_HelloWorld = "HelloWorld.jpg";
+var s_HelloWorld = "ui/HelloWorld.jpg";
 
-var s_ShootBackground = "shoot_background.png";
-var s_ShootBackgroundList = "shoot_background.plist";
+var s_ShootBackground = "ui/shoot_background.png";
+var s_ShootBackgroundList = "ui/shoot_background.plist";
 
-var s_shoot = "shoot.png";
-var s_ShootList = "shoot.plist";
+var s_shoot = "ui/shoot.png";
+var s_ShootList = "ui/shoot.plist";
+
+var s_font = "font/font.fnt";
 
 var g_resources = [
 
@@ -16,9 +18,9 @@ var g_resources = [
 
     //plist
     {src:s_ShootBackgroundList},
-    {src:s_ShootList}
+    {src:s_ShootList},
     //fnt
-
+    {src:s_font}
     //tmx
 
     //bgm

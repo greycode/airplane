@@ -10,6 +10,7 @@ var GameLayer = cc.Layer.extend({
     planeLayer:null,
     bulletLayer:null,
     enemyLayer:null,
+    controlLayer:null,
 
     bgPosY:0,
     bgHeight:0,
@@ -17,8 +18,9 @@ var GameLayer = cc.Layer.extend({
     init:function () {
         this._super();
 
-        this.setMouseEnabled(true)
-        this.setKeyboardEnabled(true)
+        this.setTouchEnabled(true)
+        this.setMouseEnabled(true);
+        this.setKeyboardEnabled(true);
 
         var winSize = cc.Director.getInstance().getWinSize();
 
@@ -48,6 +50,10 @@ var GameLayer = cc.Layer.extend({
         this. enemyLayer.init();
         this.addChild(this.enemyLayer);
 
+        this.controlLayer = new ControlLayer();
+        this.controlLayer.init();
+        this.addChild(this.controlLayer);
+
         this.schedule(function () {
             this.bgPosY -= 2;
             if (this.background2.getPositionY() <= 0) {
@@ -67,8 +73,9 @@ var GameLayer = cc.Layer.extend({
     update:function () {
         var bullets = this.bulletLayer.allBullets;
         var enemyAs = this.enemyLayer.allEnemyA;
+        var enemyBs = this.enemyLayer.allEnemyB;
 
-        var bulletToDelete = [], enemyAToDelete = [];
+        var bulletToDelete = [], enemyAToDelete = [], enemyBToDelete = [];
         for (var i = 0;i < bullets.length; i++) {
             for(var j = 0;j < enemyAs.length; j++) {
                 if (cc.rectIntersectsRect(bullets[i].getBoundingBox(), enemyAs[j].getBoundingBox())) {
@@ -76,11 +83,22 @@ var GameLayer = cc.Layer.extend({
                     enemyAToDelete.push( enemyAs[j]);
                 }
             }
+
+            for(var j = 0;j < enemyBs.length; j++) {
+                if (cc.rectIntersectsRect(bullets[i].getBoundingBox(), enemyBs[j].getBoundingBox())) {
+                    bulletToDelete.push(bullets[i]);
+                    enemyBToDelete.push( enemyBs[j]);
+                }
+            }
         }
 
         for (var i = 0;i < enemyAToDelete.length; i++) {
             this.enemyLayer.enemyABlowUp(enemyAToDelete[i]);
         }
+        for (var i = 0;i < enemyBToDelete.length; i++) {
+            this.enemyLayer.enemyBBlowUp(enemyBToDelete[i]);
+        }
+
         for (var i = 0;i < bulletToDelete.length; i++) {
             this.bulletLayer.removeBullet(bulletToDelete[i]);
         }
@@ -88,15 +106,23 @@ var GameLayer = cc.Layer.extend({
 
 
     },
+
+    onKeyDown:function (code) {
+        if (cc.KEY.space == code ) {
+            this.controlLayer.menuPauseCallback(this.controlLayer);
+        }
+    },
     onMouseEntered:function (event) {
         //cc.log(event.getLocation().x + ':' + event.getLocation().y)
 
-        this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation());
+        if (!cc.Director.getInstance().isPaused())
+            this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation());
         return true;
 
     },
     onMouseMoved:function (event) {
-        this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation())
+        if (!cc.Director.getInstance().isPaused())
+            this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation())
         return true;
     },
     onMouseDragged:function (event) {

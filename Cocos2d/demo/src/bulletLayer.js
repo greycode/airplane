@@ -10,7 +10,7 @@ var BulletLayer = cc.Layer.extend({
     init:function () {
         this._super();
 
-        var texture = cc.TextureCache.getInstance().textureForKey("shoot.png");
+        var texture = cc.TextureCache.getInstance().textureForKey("ui/shoot.png");
 //        var texture = cc.TextureCache.getInstance().addImage("cat_3.png");
         this.bulletBatchNode = cc.SpriteBatchNode.createWithTexture(texture);
         this.addChild(this.bulletBatchNode);
