@@ -15,6 +15,8 @@ var GameLayer = cc.Layer.extend({
     bgPosY:0,
     bgHeight:0,
 
+    score:0,
+
     init:function () {
         this._super();
 
@@ -77,16 +79,48 @@ var GameLayer = cc.Layer.extend({
 
         var bulletToDelete = [], enemyAToDelete = [], enemyBToDelete = [];
         for (var i = 0;i < bullets.length; i++) {
-            for(var j = 0;j < enemyAs.length; j++) {
+            for (var j = 0;j < enemyAs.length; j++) {
                 if (cc.rectIntersectsRect(bullets[i].getBoundingBox(), enemyAs[j].getBoundingBox())) {
+                    if ( --enemyAs[j].attr.life <= 0 ) {
+                        enemyAToDelete.push( enemyAs[j]);
+                        this.score += enemyAs[j].attr.score;
+                    }
                     bulletToDelete.push(bullets[i]);
+                }
+            }
+
+            for (var j = 0;j < enemyBs.length; j++) {
+                if (cc.rectIntersectsRect(bullets[i].getBoundingBox(), enemyBs[j].getBoundingBox())) {
+                    if (--enemyBs[j].attr.life <= 0) {
+                        enemyBToDelete.push( enemyBs[j]);
+                        this.score += enemyBs[j].attr.score;
+                    }
+                    bulletToDelete.push(bullets[i]);
+                }
+            }
+        }
+
+        if (this.planeLayer.isAlive) {
+            for (var j = 0;j < enemyAs.length; j++) {
+                if (cc.rectIntersectsRect(
+                    this.planeLayer.getChildByTag(AIRPLANE).getBoundingBox(),
+                    enemyAs[j].getBoundingBox())) {
+                    if (--this.planeLayer.getChildByTag(AIRPLANE).attr.life <= 0) {
+                        this.bulletLayer.stopShoot();
+                        //cc.log("enemy A distroyed our hero!")
+                        this.planeLayer.blowUp();
+                    }
                     enemyAToDelete.push( enemyAs[j]);
                 }
             }
 
-            for(var j = 0;j < enemyBs.length; j++) {
-                if (cc.rectIntersectsRect(bullets[i].getBoundingBox(), enemyBs[j].getBoundingBox())) {
-                    bulletToDelete.push(bullets[i]);
+            for (var j = 0;j < enemyBs.length; j++) {
+                if (cc.rectIntersectsRect(
+                    this.planeLayer.getChildByTag(AIRPLANE).getBoundingBox(),
+                    enemyBs[j].getBoundingBox())) {
+                    this.bulletLayer.stopShoot();
+                    //cc.log("enemy B distroyed our hero!")
+                    this.planeLayer.blowUp();
                     enemyBToDelete.push( enemyBs[j]);
                 }
             }
@@ -103,7 +137,7 @@ var GameLayer = cc.Layer.extend({
             this.bulletLayer.removeBullet(bulletToDelete[i]);
         }
 
-
+        this.controlLayer.updateScore(this.score);
 
     },
 
@@ -113,15 +147,14 @@ var GameLayer = cc.Layer.extend({
         }
     },
     onMouseEntered:function (event) {
-        //cc.log(event.getLocation().x + ':' + event.getLocation().y)
 
-        if (!cc.Director.getInstance().isPaused())
+        if (!cc.Director.getInstance().isPaused() && this.planeLayer.isAlive)
             this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation());
         return true;
 
     },
     onMouseMoved:function (event) {
-        if (!cc.Director.getInstance().isPaused())
+        if (!cc.Director.getInstance().isPaused() && this.planeLayer.isAlive)
             this.planeLayer.getChildByTag(AIRPLANE).setPosition(event.getLocation())
         return true;
     },
@@ -132,7 +165,7 @@ var GameLayer = cc.Layer.extend({
         return this.onMouseMoved(event);
     },
     onMouseDown:function (event) {
-        cc.log(event.getLocation().x + ':' + event.getLocation().y);
+        //cc.log(event.getLocation().x + ':' + event.getLocation().y);
     },
 
     EOF:function () { }

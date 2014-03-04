@@ -27,3 +27,26 @@ var g_resources = [
 
     //effect
 ];
+
+var EnemyCfg = {
+    enemyA:function() {
+        return {
+            life:1,
+            score:1
+        }
+    },
+    enemyB:function() {
+        return {
+            life:3,
+            score:3
+        }
+    }
+};
+
+var PlanCfg = {
+    newPlane:function () {
+        return {
+            life:10
+        }
+    }
+}

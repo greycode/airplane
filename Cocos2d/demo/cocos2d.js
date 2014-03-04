@@ -45,6 +45,8 @@
             'src/enemyLayer.js',
             'src/bulletLayer.js',
             'src/controlLayer.js',
+            'src/gameOverLayer.js',
+            'src/gameOverScene.js',
             'src/utilFuncs.js',
             'src/myApp.js'
         ]

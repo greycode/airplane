@@ -3,7 +3,7 @@
  */
 var BulletLayer = cc.Layer.extend({
 
-    bulletFactor:0.5,
+    bulletFactor:1,
     bulletBatchNode:null,
     allBullets:[],
 
@@ -51,7 +51,6 @@ var BulletLayer = cc.Layer.extend({
 
     },
     bulletMoveDone:function (bullet) {
-        //cc.log(bullet)
         cc.ArrayRemoveObject(this.allBullets, bullet);
         this.bulletBatchNode.removeChild(bullet, true);
 

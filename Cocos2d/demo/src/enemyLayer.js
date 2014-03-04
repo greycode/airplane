@@ -31,6 +31,7 @@ var EnemyLayer = cc.Layer.extend({
     },
     addEnemyA:function () {
         var enemy = cc.Sprite.createWithSpriteFrameName("enemy1.png");
+        enemy.attr = EnemyCfg.enemyA();
 
         var winSize = cc.Director.getInstance().getWinSize();
         var enemySize = enemy.getContentSize();
@@ -52,6 +53,7 @@ var EnemyLayer = cc.Layer.extend({
     },
     addEnemyB:function () {
         var enemy = cc.Sprite.createWithSpriteFrameName("enemy2.png");
+        enemy.attr = EnemyCfg.enemyB();
 
         var winSize = cc.Director.getInstance().getWinSize();
         var enemySize = enemy.getContentSize();
@@ -72,10 +74,10 @@ var EnemyLayer = cc.Layer.extend({
         enemy.runAction(actSeq);
     },
     enemyABlowUp: function (enemy) {
+        cc.ArrayRemoveObject(this.allEnemyA, enemy);
         var animation = cc.AnimationCache.getInstance().getAnimation("enemyABlowUp");
         var animate = cc.Animate.create(animation);
         var animationDone = cc.CallFunc.create(function (obj) {
-            cc.ArrayRemoveObject(this.allEnemyA, obj);
             this.removeChild(obj);
         },this, enemy);
 
@@ -83,10 +85,10 @@ var EnemyLayer = cc.Layer.extend({
         enemy.runAction(actSeq);
     },
     enemyBBlowUp: function (enemy) {
+        cc.ArrayRemoveObject(this.allEnemyB, enemy);
         var animation = cc.AnimationCache.getInstance().getAnimation("enemyBBlowUp");
         var animate = cc.Animate.create(animation);
         var animationDone = cc.CallFunc.create(function (obj) {
-            cc.ArrayRemoveObject(this.allEnemyB, obj);
             this.removeChild(obj);
         },this, enemy);
 

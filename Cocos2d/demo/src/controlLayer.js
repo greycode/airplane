@@ -30,8 +30,8 @@ var ControlLayer = cc.Layer.extend({
             norPause.getContentSize().width / 2 + 10, this.pauseItem.getPositionY()));
         this.addChild(this.scoreItem);
 
-//        if (!sys.localStorage["isHaveSaveDate"]) {
-//            sys.localStorage.setItem("isHaveSaveDate",true);
+//        if (!sys.localStorage["isHaveSaveData"]) {
+//            sys.localStorage.setItem("isHaveSaveData",true);
 //            sys.localStorage.setItem("highScore",12000)
 //        } else {
 //            var hiScore = sys.localStorage["highScore"]
@@ -56,6 +56,9 @@ var ControlLayer = cc.Layer.extend({
             this.pauseItem.setSelectedImage(cc.Sprite.createWithSpriteFrameName("game_pause_pressed.png"));
             director.resume();
         }
+    },
+    updateScore:function (score) {
+        this.scoreItem.setString(score);
     },
 
     EOF:function () { }
