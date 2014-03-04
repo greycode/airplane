@@ -105,9 +105,10 @@ var GameLayer = cc.Layer.extend({
                 if (cc.rectIntersectsRect(
                     this.planeLayer.getChildByTag(AIRPLANE).getBoundingBox(),
                     enemyAs[j].getBoundingBox())) {
+                    cc.log("plane life:" + this.planeLayer.getChildByTag(AIRPLANE).attr.life)
                     if (--this.planeLayer.getChildByTag(AIRPLANE).attr.life <= 0) {
                         this.bulletLayer.stopShoot();
-                        //cc.log("enemy A distroyed our hero!")
+                        //this.enemyLayer.clearAllEnemy();
                         this.planeLayer.blowUp();
                     }
                     enemyAToDelete.push( enemyAs[j]);
@@ -119,8 +120,9 @@ var GameLayer = cc.Layer.extend({
                     this.planeLayer.getChildByTag(AIRPLANE).getBoundingBox(),
                     enemyBs[j].getBoundingBox())) {
                     this.bulletLayer.stopShoot();
-                    //cc.log("enemy B distroyed our hero!")
+                    //this.enemyLayer.clearAllEnemy();
                     this.planeLayer.blowUp();
+
                     enemyBToDelete.push( enemyBs[j]);
                 }
             }

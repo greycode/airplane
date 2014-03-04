@@ -3,8 +3,8 @@
  */
 var EnemyLayer = cc.Layer.extend({
 
-    allEnemyA:[],
-    allEnemyB:[],
+    allEnemyA:null,
+    allEnemyB:null,
 
     init:function () {
         this._super();
@@ -25,6 +25,9 @@ var EnemyLayer = cc.Layer.extend({
 
         cc.AnimationCache.getInstance().addAnimation(enemyADown, 'enemyABlowUp');
         cc.AnimationCache.getInstance().addAnimation(enemyBDown, 'enemyBBlowUp');
+
+        this.allEnemyA = [];
+        this.allEnemyB = [];
 
         this.schedule(this.addEnemyA, 0.5);
         this.schedule(this.addEnemyB, 3.0);
@@ -95,6 +98,9 @@ var EnemyLayer = cc.Layer.extend({
         var actSeq = cc.Sequence.create(animate, animationDone);
         enemy.runAction(actSeq);
     },
-
+    clearAllEnemy:function () {
+        this.allEnemyA = [];
+        this.allEnemyB = [];
+    },
     EOF:function( ){ }
 });
